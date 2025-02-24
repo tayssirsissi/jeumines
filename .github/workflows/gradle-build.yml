@@ -1,0 +1,27 @@
+name: Build Gradle Project
+
+on: [push, pull_request]  # Exécute ce workflow à chaque push ou pull request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code du repo
+        uses: actions/checkout@v3
+
+      - name: Vérifier l'environnement
+        run: echo "Shell fonctionnel"
+
+      - name: Installer Gradle Wrapper si absent
+        run: |
+          if [ ! -f ./gradlew ]; then
+            gradle wrapper
+          fi
+        shell: bash
+
+      - name: Rendre `gradlew` exécutable
+        run: chmod +x gradlew
+
+      - name: Lancer Gradle
+        run: ./gradlew build
